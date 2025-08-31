@@ -1,53 +1,30 @@
-// import axios from "axios";
-// import { useEffect } from "react";
+import axios from "axios";
 import BackendUrl from "../utils/BackendUrl";
-// import { useNavigate } from "react-router-dom";
-
-// const Home=()=>{
-
-//   const navigate = useNavigate();
-//  let api=`${BackendUrl}user/userauth`;
-//  const userAuntehticate=async()=>{
-//    const token = localStorage.getItem("token");
-//     if (token)
-//     {
-//       const response = await axios.post(api, null, {headers: { "x-auth-token": token }} );
-//       console.log(response);
-//       localStorage.setItem("username", response.data.name);
-//       localStorage.setItem("useremail", response.data.email);
-//      navigate("/dashboard");
-//     }
-//   }
-//  useEffect(()=>{
-//     userAuntehticate();
-//  }, [])
-//    return(
-//         <>
-//           <h1> Welcome To Home Page</h1>
-//         </>
-//     )
-// }
-
-// export default Home;
-
-
-
-
-
-
-
-
+import { useState } from "react";
 
 const Home=()=>{
-  const handleSubmit=async(e)=>{
-
-  let api=`${BackendUrl}home`;
+  const [file,setFile]=useState("")
+  const onChangeHandler=(e)=>{
+    setFile(e.target.files[0]);
+    console.log(file)
+  }
+  const handleSubmit=async()=>{
+    const formData=new FormData();
+   let api=`${BackendUrl}upload`
+     try {
+        const response = await axios.post(api, formData);
+        console.log(response)
+        alert(`File: + response.data.filename+"successfully uploaded"`)
+     } catch (error) {
+       console.log(error)
+     }
   }
   return(
     <>
-    <h1>welcome to home page!!!</h1>
-          <Button variant="primary" type="submit" onClick={handleSubmit}>click here</Button>
-
+     <h3>Welcome to home page!!</h3>
+    
+ Upload your images: <input type="file" onChange={onChangeHandler}/><br/><br/>
+     <button onClick={handleSubmit}>Upload</button>
     </>
   )
 }

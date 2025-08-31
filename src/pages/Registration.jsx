@@ -15,7 +15,7 @@ const handleInput=(e)=>{
 }
 const handleSubmit=async(e)=>{
   e.preventDefault();
-  let api=`${BackendUrl}user/registration`;
+let api=`${BackendUrl}user/Registration`
   const response = await axios.post(api, input);
   console.log(response);
   toast(response.data.msg);
