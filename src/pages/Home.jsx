@@ -1,30 +1,32 @@
 import axios from "axios";
-import BackendUrl from "../utils/BackendUrl";
+import BackendUrl from '../utils/BackendUrl';
 import { useState } from "react";
 
 const Home=()=>{
-  const [file,setFile]=useState("")
+  const [image,setImage]=useState("")
   const onChangeHandler=(e)=>{
-    setFile(e.target.files[0]);
-    console.log(file)
+    setImage(e.target.files[0]);
+    console.log(image)
   }
-  const handleSubmit=async()=>{
+  const onsubmitHandler=async()=>{
     const formData=new FormData();
-   let api=`${BackendUrl}upload`
+    formData.append("image",image)
+     let api=`${BackendUrl}upload`;
      try {
         const response = await axios.post(api, formData);
         console.log(response)
-        alert(`File: + response.data.filename+"successfully uploaded"`)
+        // alert(File: + response.data.filename+"successfully uploaded)
      } catch (error) {
        console.log(error)
      }
   }
-  return(
+
+ return(
     <>
      <h3>Welcome to home page!!</h3>
     
- Upload your images: <input type="file" onChange={onChangeHandler}/><br/><br/>
-     <button onClick={handleSubmit}>Upload</button>
+     Upload your images: <input type="image" onChange={onChangeHandler}/><br/><br/>
+     <button onClick={onsubmitHandler}>Upload</button>
     </>
   )
 }
