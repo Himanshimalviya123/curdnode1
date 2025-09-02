@@ -1,33 +1,32 @@
 import axios from "axios";
-import BackendUrl from '../utils/BackendUrl';
 import { useState } from "react";
-
 const Home=()=>{
-  const [image,setImage]=useState("")
+  const [file,setFile]=useState("")
   const onChangeHandler=(e)=>{
-    setImage(e.target.files[0]);
-    console.log(image)
+    setFile(e.target.files[0]);
+    console.log(file)
   }
-  const onsubmitHandler=async()=>{
+  const handleSubmit=async()=>{
+    let api=`https://api.cloudinary.com/v1_1/dxobvu02n/image/upload`
     const formData=new FormData();
-    formData.append("image",image)
-     let api=`${BackendUrl}upload`;
-     try {
+   formData.append("file",file)
+      formData.append("upload_preset","himanshi")
+      formData.append("cloud_name","dxobvu02n")
         const response = await axios.post(api, formData);
         console.log(response)
-        // alert(File: + response.data.filename+"successfully uploaded)
-     } catch (error) {
-       console.log(error)
-     }
+        console.log(response.data.url);
   }
-
- return(
+  return(
     <>
-     <h3>Welcome to home page!!</h3>
-    
-     Upload your images: <input type="image" onChange={onChangeHandler}/><br/><br/>
-     <button onClick={onsubmitHandler}>Upload</button>
+     <h3>Welcome to home page!!</h3>  
+ Upload your images: <input type="file" onChange={onChangeHandler}/><br/><br/>
+     <button onClick={handleSubmit}>Upload</button>
     </>
   )
 }
 export default Home;
+
+
+
+
+
